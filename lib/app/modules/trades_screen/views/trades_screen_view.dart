@@ -15,66 +15,134 @@ class TradesScreenView extends GetView<TradesScreenController> {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onHorizontalDragEnd: (details) {
-        if (details.primaryVelocity != null) {
-          if (details.primaryVelocity! > 0) {
-            // Swiped Right
-            print("Swiped Right");
-            // Example: Navigate to previous screen
-            // Get.back();
-          } else if (details.primaryVelocity! < 0) {
-            // Swiped Left
-            print("Swiped Left");
-            // Example: Navigate to next screen
-            // Get.toNamed(Routes.NEXT_SCREEN);
-          }
-        }
-      },
+    return DefaultTabController(
+      length: 4,
       child: Scaffold(
-        appBar: AppBar(
-          automaticallyImplyLeading: false,
-          elevation: 0,
-          surfaceTintColor: primary3Color,
-          backgroundColor: Colors.white,
-          title: Row(
+        // appBar: AppBar(
+        //   automaticallyImplyLeading: false,
+        //   elevation: 0,
+        //   surfaceTintColor: primary3Color,
+        //   backgroundColor: Colors.white,
+        //   title: Row(
+        //     children: [
+        //       Text("Trade Market",
+        //           style: TextStyle(
+        //               fontSize: 15.px,
+        //               fontWeight: FontWeight.w700,
+        //               color: textBlack)),
+        //       SizedBox(width: 10.px),
+        //       Text("Feed",
+        //           style: TextStyle(
+        //               fontSize: 15.px,
+        //               fontWeight: FontWeight.w500,
+        //               color: primaryColor)),
+        //     ],
+        //   ),
+        //   actions: [
+        //     SizedBox(width: 5.px),
+        //     CommonWidgets.appIconsSvg(
+        //         assetName: IconConstants.icNotifyBadge,
+        //         height: 30.px,
+        //         width: 30.px),
+        //     SizedBox(width: 30.px),
+        //   ],
+        // ),
+        appBar: PreferredSize(
+          preferredSize: const Size.fromHeight(120),
+          child: Column(
             children: [
-              Text("Trade Market",
-                  style: TextStyle(
-                      fontSize: 15.px,
-                      fontWeight: FontWeight.w700,
-                      color: textBlack)),
-              SizedBox(width: 10.px),
-              Text("Feed",
-                  style: TextStyle(
-                      fontSize: 15.px,
-                      fontWeight: FontWeight.w500,
-                      color: primaryColor)),
+              const SizedBox(height: 40),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: Row(
+                  children: [
+                    Text("Trade Market",
+                        style: TextStyle(
+                            fontSize: 15.px,
+                            fontWeight: FontWeight.w700,
+                            color: textBlack)),
+                    SizedBox(width: 10.px),
+                    Text("Feed",
+                        style: TextStyle(
+                            fontSize: 15.px,
+                            fontWeight: FontWeight.w500,
+                            color: primaryColor)),
+                    Spacer(),
+                    CommonWidgets.appIconsSvg(
+                        assetName: IconConstants.icNotifyBadge,
+                        height: 30.px,
+                        width: 30.px),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 10),
+              TabBar(
+                indicatorColor: Theme
+                    .of(context)
+                    .primaryColor,
+                indicatorWeight: 3.px,
+                indicatorPadding: EdgeInsets.all(6.px),
+                automaticIndicatorColorAdjustment: false,
+                indicatorSize: TabBarIndicatorSize.tab,
+                // onTap: (value) =>
+                //     controller.clickOnTap(value: value, context: context),
+                labelStyle: Theme
+                    .of(context)
+                    .textTheme
+                    .headlineMedium
+                    ?.copyWith(
+                    fontSize: 12.px, color: Theme
+                    .of(context)
+                    .primaryColor),
+                unselectedLabelStyle: Theme
+                    .of(context)
+                    .textTheme
+                    .titleMedium
+                    ?.copyWith(fontSize: 12.px, fontWeight: FontWeight.w700),
+                dividerColor: Theme
+                    .of(context)
+                    .colorScheme
+                    .surface,
+                padding: EdgeInsets.zero,
+                labelPadding: EdgeInsets.symmetric(horizontal: 5.px),
+                tabs: [
+                  Tab(text: 'Equity'),
+                  Tab(text: 'Derivatives'),
+                  Tab(text: 'Commodity'),
+                  Tab(text: 'Currency'),
+                ],
+              ),
             ],
           ),
-          actions: [
-            SizedBox(width: 5.px),
-            CommonWidgets.appIconsSvg(
-                assetName: IconConstants.icNotifyBadge,
-                height: 30.px,
-                width: 30.px),
-            SizedBox(width: 30.px),
+        ),
+        body: const TabBarView(
+          children: [
+            EmptyStateWidget2(),
+            EmptyStateWidget2(),
+            EmptyStateWidget2(),
+            EmptyStateWidget2(),
           ],
         ),
-        body: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: const [
-              TabBarWidget(),
-              SizedBox(height: 16),
-              StockListWidget(),
-              SizedBox(height: 24),
-              IndicesWidget(),
-              SizedBox(height: 24),
-              StocksSectionWidget(),
-            ],
-          ),
-        ),
+      ),
+    );
+  }
+}
+
+class EmptyStateWidget2 extends StatelessWidget {
+  const EmptyStateWidget2({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: const [
+          StockListWidget(),
+          SizedBox(height: 24),
+          IndicesWidget(),
+          SizedBox(height: 24),
+          StocksSectionWidget(),
+        ],
       ),
     );
   }
@@ -91,20 +159,32 @@ class TabBarWidget extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           TabBar(
-            indicatorColor: Theme.of(context).primaryColor,
+            indicatorColor: Theme
+                .of(context)
+                .primaryColor,
             indicatorWeight: 3.px,
             indicatorPadding: EdgeInsets.all(6.px),
             automaticIndicatorColorAdjustment: false,
             indicatorSize: TabBarIndicatorSize.tab,
             // onTap: (value) =>
             //     controller.clickOnTap(value: value, context: context),
-            labelStyle: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                fontSize: 12.px, color: Theme.of(context).primaryColor),
-            unselectedLabelStyle: Theme.of(context)
+            labelStyle: Theme
+                .of(context)
+                .textTheme
+                .headlineMedium
+                ?.copyWith(
+                fontSize: 12.px, color: Theme
+                .of(context)
+                .primaryColor),
+            unselectedLabelStyle: Theme
+                .of(context)
                 .textTheme
                 .titleMedium
                 ?.copyWith(fontSize: 12.px, fontWeight: FontWeight.w700),
-            dividerColor: Theme.of(context).colorScheme.surface,
+            dividerColor: Theme
+                .of(context)
+                .colorScheme
+                .surface,
             padding: EdgeInsets.zero,
             labelPadding: EdgeInsets.symmetric(horizontal: 5.px),
             tabs: [
@@ -138,14 +218,17 @@ class StockListWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: (){
+      onTap: () {
         Get.toNamed(Routes.TRADES_DETAIL_SCREEN);
       },
       child: Column(
         children: stocks
             .map(
-              (stock) => Container(
-                color: stocks.indexOf(stock).isEven
+              (stock) =>
+              Container(
+                color: stocks
+                    .indexOf(stock)
+                    .isEven
                     ? Colors.transparent
                     : borderColor,
                 padding: const EdgeInsets.symmetric(vertical: 10),
@@ -178,7 +261,7 @@ class StockListWidget extends StatelessWidget {
                   ],
                 ),
               ),
-            )
+        )
             .toList(),
       ),
     );
@@ -227,12 +310,11 @@ class IndicesWidget extends StatelessWidget {
 class IndexCard extends StatelessWidget {
   final String title, subtitle, value, change;
 
-  const IndexCard(
-      {super.key,
-      required this.title,
-      required this.subtitle,
-      required this.value,
-      required this.change});
+  const IndexCard({super.key,
+    required this.title,
+    required this.subtitle,
+    required this.value,
+    required this.change});
 
   @override
   Widget build(BuildContext context) {
@@ -380,12 +462,11 @@ class StocksSectionWidget extends StatelessWidget {
 class StockEntry extends StatelessWidget {
   final String title, subtitle, value, change;
 
-  const StockEntry(
-      {super.key,
-      required this.title,
-      required this.subtitle,
-      required this.value,
-      required this.change});
+  const StockEntry({super.key,
+    required this.title,
+    required this.subtitle,
+    required this.value,
+    required this.change});
 
   @override
   Widget build(BuildContext context) {

@@ -73,7 +73,7 @@ class NavBarView extends GetView<NavBarController> {
                     button(
                         selectImage: "Research",
                         image: IconConstants.icResearchUnFillSvg,
-                        width: 60.px,
+                        width: 65.px,
                         height: 50.px,
                         index: 3),
                     button(

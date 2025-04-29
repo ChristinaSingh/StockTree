@@ -18,6 +18,7 @@ class IconConstants {
   static const String icApplePay = 'assets/icons/ic_apple_pay.png';
   static const String icMasterCard = 'assets/icons/ic_master_card.png';
   static const String icImageUpload = 'assets/icons/ic_upload_png.png';
+  static const String icImageBanner = 'assets/images/img_banner_home.png';
 
 
 

@@ -12,13 +12,11 @@ import '../controllers/research_screen_controller.dart';
 class ResearchScreenView extends GetView<ResearchScreenController> {
   const ResearchScreenView({super.key});
 
-
   @override
   Widget build(BuildContext context) {
     Get.lazyPut<ResearchScreenController>(
-          () => ResearchScreenController(),
+      () => ResearchScreenController(),
     );
-
 
     return Scaffold(
       backgroundColor: primary3Color,
@@ -56,16 +54,16 @@ class ResearchScreenView extends GetView<ResearchScreenController> {
         ],
       ),
       body: Obx(() => ListView.builder(
-        itemCount: controller.traders.length,
-        itemBuilder: (context, index) {
-          final trader = controller.traders[index];
-          return GestureDetector(
-            onTap: (){
-              Get.toNamed(Routes.RESEARCH_DETAIL_SCREEN);
+            itemCount: controller.traders.length,
+            itemBuilder: (context, index) {
+              final trader = controller.traders[index];
+              return GestureDetector(
+                  onTap: () {
+                    Get.toNamed(Routes.RESEARCH_DETAIL_SCREEN);
+                  },
+                  child: TraderCard(trader: trader));
             },
-              child: TraderCard(trader: trader));
-        },
-      )),
+          )),
     );
   }
 }
@@ -77,8 +75,6 @@ class TraderCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-
     return Container(
       margin: EdgeInsets.all(10),
       padding: EdgeInsets.all(15),
@@ -127,8 +123,7 @@ class TraderCard extends StatelessWidget {
                           Text(
                             'Online',
                             style: TextStyle(
-                                color: greenColor,
-                                fontWeight: FontWeight.bold),
+                                color: greenColor, fontWeight: FontWeight.bold),
                           ),
                       ],
                     ),
@@ -147,9 +142,15 @@ class TraderCard extends StatelessWidget {
                         SizedBox(width: 5),
                         Text('Trades: ${trader.trades}'),
                         SizedBox(width: 15),
+                      ],
+                    ),
+                    SizedBox(height: 5),
+                    Row(
+                      children: [
                         Icon(Icons.person, size: 16),
                         SizedBox(width: 5),
                         Text('Experience: ${trader.experience}y'),
+                        SizedBox(width: 15),
                       ],
                     ),
                   ],
